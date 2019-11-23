@@ -6,7 +6,9 @@ cap = cv2.VideoCapture('https://192.168.254.101:8080/video')
 while(True):
 
     ret, frame = cap.read()
-    cv2.imshow('stream',frame)
+    #convert to hsv
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    cv2.imshow('stream', hsv)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
