@@ -3,11 +3,11 @@
 2. opencv/python
 3. Real-time
   * read every frame:
-   * -convert to HSV
-   * -binarize HSV image -> skin and non-skin pixels
-   * -do some cleaning
-   * -use findcontours() -> differentiate faces
-   * -draw a bounding box on each detected face
-   * -output -> face count in imshow()
+        * -convert to HSV
+        * -binarize HSV image -> skin and non-skin pixels
+        * -do some cleaning
+        * -use findcontours() -> differentiate faces
+        * -draw a bounding box on each detected face
+        * -output -> face count in imshow()
     
 deadline: finals week
