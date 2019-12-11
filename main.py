@@ -17,19 +17,24 @@ while(True):
     skin = cv2.inRange(hsv, lower_threshold, upper_threshold)
     #cleaning up mask using gaussian filter & dilation
     gaussian = cv2.GaussianBlur(skin,(3,3),0)
-    dilated = cv2.dilate(gaussian, None, iterations=11)
+    dilated = cv2.dilate(gaussian, None, iterations=10)
+    eroded = cv2.erode(dilated, None, iterations=5)
 
     #step 3 - differentiate faces - findcontours
-    _, contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+    _, contours, _ = cv2.findContours(eroded, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
 
     #step 4 - draw bounding box
+    i = 0
     for c in contours:
         rect = cv2.boundingRect(c)
-        if rect[2]<100 or rect[3]<100: continue
+        if rect[2]<100 or rect[2]>800 or rect[3]<100 or rect[3]>800: continue
+        i = i+1
         x,y,w,h = rect
-        cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+        cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),3)
 
-    cv2.imshow('stream', frame)
+    cv2.putText(frame, 'person count:'+str(i),(50,100), cv2.FONT_HERSHEY_SIMPLEX, 2,(255,255,0),2,cv2.LINE_AA)
+    cv2.imshow('binary', eroded)
+    cv2.imshow('detection', frame)
 
     #interrupt
     if cv2.waitKey(1) & 0xFF == ord('q'):
